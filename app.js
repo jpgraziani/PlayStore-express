@@ -1,11 +1,12 @@
 //create basic server with express and morgan
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 
 app.use(morgan('common'));
-
+app.use(cors());
 //-------------------------------------------------------------------------
 //get the playlist
 const playlists = require('./playlist-data.js');
@@ -55,7 +56,7 @@ if (genres) {
       return element.Genres.toLowerCase() === genres.toLowerCase();
     });
   } else {
-    res.status(404).send('You must supply a valid genre');
+    res.status(400).send('You must supply a valid genre');
   }
 }
 
@@ -69,8 +70,5 @@ res.json(data)
 });
 
 
-//---------------------------------
-app.listen(8000, () => {
-  console.log('Server started on PORT 8000')
-});
 
+module.exports = app;
